@@ -3,3 +3,4 @@ docs/archived/
 __pycache__/
 *.egg-info/
 UNKNOWN.egg-info/
+docs/examples/
