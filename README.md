@@ -45,13 +45,18 @@ Add to your \`~/.claude/mcp_config.json\`:
   "mcpServers": {
     "youtube": {
       "command": "python",
-      "args": ["-m", "src.main"],
+      "args": ["src/main.py"],
       "env": {
         "YOUTUBE_API_KEY": "\${YOUTUBE_API_KEY}"
       }
     }
   }
 }
+\`\`\`
+
+或者如果想在项目目录运行（开发模式）：
+\`\`\`bash
+python src/main.py
 \`\`\`
 
 ## Tools
