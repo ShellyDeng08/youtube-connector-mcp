@@ -1,7 +1,6 @@
 """Configuration for YouTube MCP Server."""
 import os
 from dataclasses import dataclass
-from typing import Literal
 
 
 @dataclass
