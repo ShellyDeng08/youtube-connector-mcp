@@ -32,7 +32,7 @@ async def youtube_get_analytics(ids: str, metrics: list = None, start_date: str 
     """Get analytics data for a channel or video.
 
     Note: This requires additional OAuth scopes. With API key only, limited data is available.
-    Basic statistics are available via the videos/channels endpoints.
+    Basic statistics are available via videos/channels endpoints.
 
     Args:
         ids: Channel or video ID (format: channel==ID or video==ID)
