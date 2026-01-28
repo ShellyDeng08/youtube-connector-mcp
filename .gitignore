@@ -4,3 +4,4 @@ __pycache__/
 *.egg-info/
 UNKNOWN.egg-info/
 docs/examples/
+.DS_Store

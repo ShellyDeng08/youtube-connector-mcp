@@ -4,41 +4,32 @@
 >
 > MCP 服务器让 Claude 能访问外部 API。配置后，Claude 可以像使用内置工具一样调用 YouTube API。
 >
-> 本项目附带的 Skills（在 `docs/examples/skills/`）是可选的使用示例，不需要安装。
-
----
+> 安装后立即可用，无需额外配置。
+>
 
 A Model Context Protocol (MCP) server that exposes YouTube Data API v3 functionality to Claude Code.
 
 ## Features
 
-- **Search**: Find videos, channels, and playlists
+- **Search**: Find videos, channels, and playlists with filters
 - **Video Details**: Get metadata, statistics, thumbnails
 - **Transcripts**: Retrieve video captions/transcripts
 - **Playlists**: Access playlist content and channel playlists
 - **Comments**: Fetch and browse video comments
 - **Channels**: Get channel information and statistics
-- **Analytics**: Basic statistics via video/channel tools (OAuth required for full analytics)
+- **Analytics**: Basic statistics via video/channel tools (OAuth required for full data)
 
 ## Installation
 
-\`\`\`bash
-pip install -e ".[dev]"
-\`\`\`
-
-## Configuration
-
-Set \`YOUTUBE_API_KEY\` environment variable:
+### Via npm (Recommended)
 
 \`\`\`bash
-export YOUTUBE_API_KEY="your_api_key_here"
+npx -y @your-username/youtube-mcp-server
 \`\`\`
 
-Get an API key from: https://console.cloud.google.com/apis/credentials
+### Configuration
 
-### MCP Configuration
-
-Add to your \`~/.claude/mcp_config.json\`:
+Add to your `~/.claude/mcp_config.json`:
 
 \`\`\`json
 {
@@ -47,61 +38,78 @@ Add to your \`~/.claude/mcp_config.json\`:
       "command": "python",
       "args": ["src/main.py"],
       "env": {
-        "YOUTUBE_API_KEY": "\${YOUTUBE_API_KEY}"
+        "YOUTUBE_API_KEY": "${YOUTUBE_API_KEY}"
       }
     }
   }
 }
 \`\`\`
 
-或者如果想在项目目录运行（开发模式）：
+### Environment Variable
+
 \`\`\`bash
-python src/main.py
+export YOUTUBE_API_KEY="your_api_key_here"
 \`\`\`
+
+Get an API key from: https://console.cloud.google.com/apis/credentials
 
 ## Tools
 
-| Tool                     | Description                    |
-| ------------------------ | ------------------------------ |
-| \`youtube_search\`         | Search YouTube content         |
-| \`youtube_get_video\`      | Get video details              |
-| \`youtube_get_channel\`    | Get channel information        |
-| \`youtube_get_transcript\` | Get video transcript           |
-| \`youtube_get_playlist\`   | Get playlist details           |
-| \`youtube_list_playlists\` | List channel playlists         |
-| \`youtube_get_comments\`   | Get video comments             |
-| \`youtube_get_analytics\`  | Get analytics (OAuth required) |
+| Tool | Description |
+|-------|-------------|
+| `youtube_search` | Search YouTube for videos, channels, or playlists |
+| `youtube_get_video` | Get detailed information about a YouTube video |
+| `youtube_get_channel` | Get channel information |
+| `youtube_get_transcript` | Get transcript/captions for a YouTube video |
+| `youtube_get_playlist` | Get playlist details and video list |
+| `youtube_list_playlists` | List channel playlists |
+| `youtube_get_comments` | Get comments for a YouTube video |
+| `youtube_get_analytics` | Get analytics data (OAuth required) |
 
-## Skills
+## Usage Examples
 
-**可选的 Skills 示例**（参考 `docs/examples/skills/`）：
+### Search Videos
 
-这些是开发过程中生成的实用 Skills，用于常见工作流：
+\`\`\`text
+User: Find Claude Code tutorial videos
+\`\`\`
 
-- \`youtube-search\`: Search and discovery workflow
-- \`youtube-transcript\`: Transcript analysis workflow
-- \`youtube-playlist\`: Playlist management workflow
+Claude will automatically use the `youtube_search` tool.
 
-**注意**：这些 Skills 不是必须安装的。它们只是使用示例，展示如何用 MCP 工具完成特定任务。
+### Get Video Details
+
+\`\`\`text
+User: Tell me about video dQw4w9WxXcQ
+\`\`\`
+
+Claude will use `youtube_get_video` to fetch details.
+
+### Browse Comments
+
+\`\`\`text
+User: What are people saying about this video?
+\`\`\`
+
+Claude will use `youtube_get_comments` to fetch and analyze.
 
 ## Development
 
 \`\`\`bash
-# Install development dependencies
+# Install dependencies
 pip install -e ".[dev]"
 
 # Run tests
 pytest tests/ -v
 
 # Run server
-python -m src.main
+python src/main.py
 \`\`\`
 
 ## API Limits
 
 - YouTube Data API quotas apply (10,000 units/day by default)
 - Rate limiting is built-in (100 requests/second default)
-- Configure with \`YOUTUBE_RATE_LIMIT\` environment variable
+- Configure with `YOUTUBE_RATE_LIMIT` environment variable
 
 ## License
 
