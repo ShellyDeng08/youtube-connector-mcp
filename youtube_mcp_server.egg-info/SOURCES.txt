@@ -1,6 +1,0 @@
-pyproject.toml
-youtube_mcp_server.egg-info/PKG-INFO
-youtube_mcp_server.egg-info/SOURCES.txt
-youtube_mcp_server.egg-info/dependency_links.txt
-youtube_mcp_server.egg-info/requires.txt
-youtube_mcp_server.egg-info/top_level.txt
