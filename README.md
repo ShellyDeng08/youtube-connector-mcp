@@ -1,5 +1,13 @@
 # YouTube MCP Server
 
+> **这是什么？** 这是一个 **MCP 服务器**，不是 Plugin。
+>
+> MCP 服务器让 Claude 能访问外部 API。配置后，Claude 可以像使用内置工具一样调用 YouTube API。
+>
+> 本项目附带的 Skills（在 `docs/examples/skills/`）是可选的使用示例，不需要安装。
+
+---
+
 A Model Context Protocol (MCP) server that exposes YouTube Data API v3 functionality to Claude Code.
 
 ## Features
@@ -61,11 +69,15 @@ Add to your \`~/.claude/mcp_config.json\`:
 
 ## Skills
 
-Three skills are included for common workflows:
+**可选的 Skills 示例**（参考 `docs/examples/skills/`）：
+
+这些是开发过程中生成的实用 Skills，用于常见工作流：
 
 - \`youtube-search\`: Search and discovery workflow
 - \`youtube-transcript\`: Transcript analysis workflow
 - \`youtube-playlist\`: Playlist management workflow
+
+**注意**：这些 Skills 不是必须安装的。它们只是使用示例，展示如何用 MCP 工具完成特定任务。
 
 ## Development
 
