@@ -1,7 +1,31 @@
-.worktrees/
-docs/archived/
+# Python
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
 __pycache__/
-*.egg-info/
-UNKNOWN.egg-info/
-docs/examples/
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Local config
+.env
+.claude/
+.claude/settings.local.json
+
+# Package files
+*.egg-info/
+dist/
+build/
+
+# Debug scripts (development only)
+check_captions.py
+get_video_info.py
+get_full_info.py
