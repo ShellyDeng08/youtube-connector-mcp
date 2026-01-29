@@ -10,6 +10,7 @@ This tests that:
 import asyncio
 import sys
 import os
+from mcp.server import Server
 
 # Test imports
 print("Testing module imports...")

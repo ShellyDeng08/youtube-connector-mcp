@@ -16,3 +16,5 @@ pydantic = "^2.0.0"
 [tool.poetry.dev-dependencies]
 pytest = "^8.0.0"
 responses = "^0.25.0"
+pytest-cov = "^6.0.0"
+pytest-asyncio = "^1.0.0"

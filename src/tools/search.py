@@ -66,7 +66,7 @@ async def youtube_search(query: str, max_results: int = 10, order: str = "releva
     except Exception as e:
         return {
             "data": None,
-            "error": {"code": type(e).__name__, "message": str(e)},
+            "error": {"code": e.__class__.__name__, "message": str(e)},
             "pagination": None
         }
 
