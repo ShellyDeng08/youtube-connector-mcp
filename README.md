@@ -51,10 +51,18 @@ claude mcp add -s user -e YOUTUBE_API_KEY="${YOUTUBE_API_KEY}" youtube-connector
 ### Install from PyPI (Recommended)
 
 ```bash
+# Install pipx first (if not installed)
+brew install pipx  # macOS
+# or: apt install pipx  # Ubuntu/Debian
+
+# Then install the package
+pipx install youtube-connector-mcp
+
+# Or with pip in a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
 pip install youtube-connector-mcp
 ```
-
-> **Note:** If `pip` doesn't work, try `pip3 install youtube-connector-mcp`
 
 ### Install from Source
 
@@ -81,13 +89,13 @@ claude mcp list  # Check if server is registered
 
 ```bash
 # Install for current project only
-claude mcp add -s local -e YOUTUBE_API_KEY="${YOUTUBE_API_KEY}" youtube-connector-mcp -- youtube-connector-mcp
+claude mcp add youtube-connector-mcp youtube-connector-mcp -s local -e YOUTUBE_API_KEY="${YOUTUBE_API_KEY}"
 
 # Install for all your projects (recommended)
-claude mcp add -s user -e YOUTUBE_API_KEY="${YOUTUBE_API_KEY}" youtube-connector-mcp -- youtube-connector-mcp
+claude mcp add youtube-connector-mcp youtube-connector-mcp -s user -e YOUTUBE_API_KEY="${YOUTUBE_API_KEY}"
 
 # Install to project's .mcp.json
-claude mcp add -s project -e YOUTUBE_API_KEY="${YOUTUBE_API_KEY}" youtube-connector-mcp -- youtube-connector-mcp
+claude mcp add youtube-connector-mcp youtube-connector-mcp -s project -e YOUTUBE_API_KEY="${YOUTUBE_API_KEY}"
 ```
 
 > **Don't have an API key?** See [Creating a YouTube API Key](#creating-a-youtube-api-key) below - it's free and takes just a few minutes.

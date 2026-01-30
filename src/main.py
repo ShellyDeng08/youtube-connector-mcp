@@ -143,5 +143,10 @@ async def main():
         )
 
 
-if __name__ == "__main__":
+def cli_main():
+    """Entry point for CLI - runs the async main."""
     asyncio.run(main())
+
+
+if __name__ == "__main__":
+    cli_main()

@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "youtube-connector-mcp"
-version = "0.1.2"
+version = "0.1.3"
 description = "YouTube MCP Server for Claude Code"
 authors = ["ShellyDeng08 <ShellyDeng08@users.noreply.github.com>"]
 readme = "README.md"
@@ -17,7 +17,7 @@ Repository = "https://github.com/ShellyDeng08/youtube-connector-mcp"
 Documentation = "https://github.com/ShellyDeng08/youtube-connector-mcp/blob/main/README.md"
 
 [tool.poetry.scripts]
-youtube-connector-mcp = "src.main:main"
+youtube-connector-mcp = "src.main:cli_main"
 
 [tool.poetry.dependencies]
 python = ">=3.10"
