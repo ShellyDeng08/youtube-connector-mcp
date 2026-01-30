@@ -29,3 +29,6 @@ build/
 check_captions.py
 get_video_info.py
 get_full_info.py
+
+# Design/plans (development history, not needed for users)
+docs/plans/

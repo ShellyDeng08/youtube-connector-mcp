@@ -1,5 +1,6 @@
 """MCP Server entry point - YouTube MCP Server."""
 import asyncio
+import mcp.types as types
 from mcp.server import Server
 
 server = Server("youtube-mcp-server")
@@ -28,46 +29,46 @@ async def read_resource(uri):
 async def list_tools():
     """List all available YouTube MCP tools."""
     return [
-        {
-            "name": "youtube_search",
-            "description": "Search YouTube for videos, channels, or playlists",
-            "inputSchema": SearchArgs.model_json_schema()
-        },
-        {
-            "name": "youtube_get_video",
-            "description": "Get detailed information about a YouTube video",
-            "inputSchema": GetVideoArgs.model_json_schema()
-        },
-        {
-            "name": "youtube_get_channel",
-            "description": "Get channel information",
-            "inputSchema": GetChannelArgs.model_json_schema()
-        },
-        {
-            "name": "youtube_get_transcript",
-            "description": "Get transcript/captions for a YouTube video",
-            "inputSchema": GetTranscriptArgs.model_json_schema()
-        },
-        {
-            "name": "youtube_get_playlist",
-            "description": "Get playlist details and video list",
-            "inputSchema": GetPlaylistArgs.model_json_schema()
-        },
-        {
-            "name": "youtube_list_playlists",
-            "description": "List playlists for a channel",
-            "inputSchema": ListPlaylistsArgs.model_json_schema()
-        },
-        {
-            "name": "youtube_get_comments",
-            "description": "Get comments for a YouTube video",
-            "inputSchema": GetCommentsArgs.model_json_schema()
-        },
-        {
-            "name": "youtube_get_analytics",
-            "description": "Get analytics data (requires OAuth for full data)",
-            "inputSchema": GetAnalyticsArgs.model_json_schema()
-        },
+        types.Tool(
+            name="youtube_search",
+            description="Search YouTube for videos, channels, or playlists",
+            inputSchema=SearchArgs.model_json_schema()
+        ),
+        types.Tool(
+            name="youtube_get_video",
+            description="Get detailed information about a YouTube video",
+            inputSchema=GetVideoArgs.model_json_schema()
+        ),
+        types.Tool(
+            name="youtube_get_channel",
+            description="Get channel information",
+            inputSchema=GetChannelArgs.model_json_schema()
+        ),
+        types.Tool(
+            name="youtube_get_transcript",
+            description="Get transcript/captions for a YouTube video",
+            inputSchema=GetTranscriptArgs.model_json_schema()
+        ),
+        types.Tool(
+            name="youtube_get_playlist",
+            description="Get playlist details and video list",
+            inputSchema=GetPlaylistArgs.model_json_schema()
+        ),
+        types.Tool(
+            name="youtube_list_playlists",
+            description="List playlists for a channel",
+            inputSchema=ListPlaylistsArgs.model_json_schema()
+        ),
+        types.Tool(
+            name="youtube_get_comments",
+            description="Get comments for a YouTube video",
+            inputSchema=GetCommentsArgs.model_json_schema()
+        ),
+        types.Tool(
+            name="youtube_get_analytics",
+            description="Get analytics data (requires OAuth for full data)",
+            inputSchema=GetAnalyticsArgs.model_json_schema()
+        ),
     ]
 
 

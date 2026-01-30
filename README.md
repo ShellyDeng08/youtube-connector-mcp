@@ -115,7 +115,7 @@ Paste your API key directly in `~/.claude/mcp_config.json`:
 ```json
 {
   "mcpServers": {
-    "youtube": {
+    "youtube-mcp-server": {
       "command": "python",
       "args": ["-m", "src.main"],
       "env": {
@@ -146,12 +146,12 @@ pip install -r requirements.txt
 
 ## Configuration
 
-Add to your project's `~/.claude.json`:
+Add to your `~/.claude/mcp_config.json`:
 
 ```json
 {
   "mcpServers": {
-    "youtube": {
+    "youtube-mcp-server": {
       "command": "/path/to/youtube-mcp-server/.venv/bin/python",
       "args": ["-m", "src.main"],
       "cwd": "/path/to/youtube-mcp-server",

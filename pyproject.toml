@@ -7,6 +7,9 @@ name = "youtube-mcp-server"
 version = "0.1.0"
 description = "YouTube MCP Server for Claude Code"
 
+[tool.poetry.scripts]
+youtube-mcp-server = "src.main:main"
+
 [tool.poetry.dependencies]
 python = "^3.10"
 mcp = "^1.0.0"
