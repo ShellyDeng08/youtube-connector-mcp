@@ -3,21 +3,34 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "youtube-mcp-server"
-version = "0.1.0"
+name = "youtube-connector-mcp"
+version = "0.1.2"
 description = "YouTube MCP Server for Claude Code"
+authors = ["ShellyDeng08 <ShellyDeng08@users.noreply.github.com>"]
+readme = "README.md"
+license = "MIT"
+packages = [{include = "src"}]
+
+[tool.poetry.urls]
+Homepage = "https://github.com/ShellyDeng08/youtube-connector-mcp"
+Repository = "https://github.com/ShellyDeng08/youtube-connector-mcp"
+Documentation = "https://github.com/ShellyDeng08/youtube-connector-mcp/blob/main/README.md"
 
 [tool.poetry.scripts]
-youtube-mcp-server = "src.main:main"
+youtube-connector-mcp = "src.main:main"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-mcp = "^1.0.0"
-google-api-python-client = "^2.140.0"
-pydantic = "^2.0.0"
+python = ">=3.10"
+mcp = ">=1.0.0"
+google-api-python-client = ">=2.140.0"
+pydantic = ">=2.0.0"
+youtube-transcript-api = ">=0.6.0"
 
-[tool.poetry.dev-dependencies]
-pytest = "^8.0.0"
-responses = "^0.25.0"
-pytest-cov = "^6.0.0"
-pytest-asyncio = "^1.0.0"
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.0.0"
+responses = ">=0.25.0"
+pytest-cov = ">=6.0.0"
+pytest-asyncio = ">=1.0.0"

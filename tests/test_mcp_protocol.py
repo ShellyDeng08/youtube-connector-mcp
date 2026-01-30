@@ -204,7 +204,7 @@ class TestMCPProtocol:
 
     def test_server_name(self):
         """Server should have a valid name."""
-        assert server.name == "youtube-mcp-server"
+        assert server.name == "youtube-connector-mcp"
 
     @pytest.mark.asyncio
     async def test_call_tool_invalid_tool_raises_error(self):

@@ -3,7 +3,7 @@ import asyncio
 import mcp.types as types
 from mcp.server import Server
 
-server = Server("youtube-mcp-server")
+server = Server("youtube-connector-mcp")
 
 # Import all tools
 from src.tools.search import youtube_search, SearchArgs

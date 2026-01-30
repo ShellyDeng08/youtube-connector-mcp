@@ -20,7 +20,7 @@ pytest tests/test_tools/test_search.py
 ## Project Structure
 
 ```
-youtube-mcp-server/
+youtube-mcp-server/  (Repository name)
 ├── src/
 │   ├── main.py              # MCP server entry point
 │   ├── youtube_client.py    # YouTube API wrapper
