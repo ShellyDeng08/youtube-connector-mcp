@@ -25,13 +25,17 @@ Search videos, get details, fetch comments, access playlists, transcripts, and m
 # 2. Set your API key as environment variable
 export YOUTUBE_API_KEY="your_api_key_here"
 
-# 3. Install the package
-pip install youtube-connector-mcp
+# 3. Install pipx first (if not installed)
+brew install pipx  # macOS
+# or: apt install pipx  # Ubuntu/Debian
 
-# 4. Add the MCP server
-claude mcp add -s user -e YOUTUBE_API_KEY="${YOUTUBE_API_KEY}" youtube-connector-mcp -- youtube-connector-mcp
+# 4. Install the package
+pipx install youtube-connector-mcp
 
-# 5. Restart Claude Code and start using!
+# 5. Add the MCP server
+claude mcp add youtube-connector-mcp youtube-connector-mcp -s user -e YOUTUBE_API_KEY="${YOUTUBE_API_KEY}"
+
+# 6. Restart Claude Code and start using!
 ```
 
 ---
@@ -235,8 +239,8 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 **Error:** `ModuleNotFoundError: No module named 'mcp'`
 
 **Solutions:**
-1. Activate virtual environment: `source .venv/bin/activate`
-2. Reinstall: `pip install youtube-connector-mcp`
+- **If using pipx**: `pipx reinstall youtube-connector-mcp`
+- **If using pip in venv**: Activate virtual environment first `source .venv/bin/activate`
 
 ### API Quota Exceeded
 
