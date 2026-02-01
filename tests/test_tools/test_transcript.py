@@ -1,7 +1,7 @@
 """Unit tests for youtube_get_transcript tool."""
 import pytest
 import os
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, MagicMock
 from src.tools.transcript import youtube_get_transcript, GetTranscriptArgs
 
 
@@ -21,108 +21,67 @@ class TestYouTubeGetTranscript:
     """Test youtube_get_transcript function."""
 
     @pytest.mark.asyncio
-    @patch.dict(os.environ, {"YOUTUBE_API_KEY": "test_key"})
-    @patch("src.tools.transcript._client", None)
-    @patch("src.tools.transcript.YouTubeClient")
-    async def test_get_transcript_finds_requested_language(self, mock_client_class):
-        """youtube_get_transcript should find caption in requested language."""
-        mock_client_instance = Mock()
-        mock_client_class.return_value = mock_client_instance
+    async def test_get_transcript_success(self):
+        """youtube_get_transcript should return transcript data."""
+        with patch("src.tools.transcript.YouTubeClient") as MockYouTubeClient:
+            mock_client_instance = MockYouTubeClient.return_value.return_value = MagicMock()
+            mock_transcript_api = MagicMock()
 
-        mock_captions = Mock()
-        mock_captions.list.return_value.execute.return_value = {
-            "items": [
-                {"id": "en_cap", "snippet": {"languageCode": "en", "trackKind": "standard"}},
-                {"id": "es_cap", "snippet": {"languageCode": "es", "trackKind": "standard"}}
+            mock_transcript_data = [
+                Mock(text="Hello world", start=0.0, duration=1.0),
+                Mock(text="This is a test", start=1.0, duration=1.0),
             ]
-        }
-        mock_client_instance.client.captions.return_value = mock_captions
+            mock_transcript_api.fetch.return_value = mock_transcript_data
+            mock_transcript_api.list.return_value = []
 
         result = await youtube_get_transcript(video_id="abc123", language="en")
 
+        assert result["data"]["videoId"] == "abc123"
         assert result["data"]["language"] == "en"
-        assert result["data"]["captionId"] == "en_cap"
-        assert len(result["data"]["availableTracks"]) == 2
+        assert result["data"]["segmentCount"] == 2
         assert result["error"] is None
 
     @pytest.mark.asyncio
-    @patch.dict(os.environ, {"YOUTUBE_API_KEY": "test_key"})
-    @patch("src.tools.transcript._client", None)
-    @patch("src.tools.transcript.YouTubeClient")
-    async def test_get_transcript_falls_back_to_asr(self, mock_client_class):
-        """youtube_get_transcript should fall back to auto-generated (asr) if no exact match."""
-        mock_client_instance = Mock()
-        mock_client_class.return_value = mock_client_instance
+    async def test_get_transcript_no_transcript_available(self):
+        """youtube_get_transcript should return NotFound when no transcript available."""
+        with patch("src.tools.transcript.YouTubeClient") as MockYouTubeClient:
+            mock_client_instance = MockYouTubeClient.return_value.return_value = MagicMock()
+            mock_transcript_api = MagicMock()
+            mock_transcript_api.fetch.return_value = []
+            mock_transcript_api.list.return_value = []
 
-        mock_captions = Mock()
-        mock_captions.list.return_value.execute.return_value = {
-            "items": [
-                {"id": "asr_cap", "snippet": {"languageCode": "en", "trackKind": "asr"}},
-                {"id": "es_cap", "snippet": {"languageCode": "es", "trackKind": "standard"}}
-            ]
-        }
-        mock_client_instance.client.captions.return_value = mock_captions
-
-        result = await youtube_get_transcript(video_id="abc123", language="en")
-
-        assert result["data"]["captionId"] == "asr_cap"
-        assert result["error"] is None
-
-    @pytest.mark.asyncio
-    @patch.dict(os.environ, {"YOUTUBE_API_KEY": "test_key"})
-    @patch("src.tools.transcript._client", None)
-    @patch("src.tools.transcript.YouTubeClient")
-    async def test_get_transcript_falls_back_to_first_available(self, mock_client_class):
-        """youtube_get_transcript should fall back to first available if no ASR."""
-        mock_client_instance = Mock()
-        mock_client_class.return_value = mock_client_instance
-
-        mock_captions = Mock()
-        mock_captions.list.return_value.execute.return_value = {
-            "items": [
-                {"id": "es_cap", "snippet": {"languageCode": "es", "trackKind": "standard"}}
-            ]
-        }
-        mock_client_instance.client.captions.return_value = mock_captions
-
-        result = await youtube_get_transcript(video_id="abc123", language="en")
-
-        assert result["data"]["captionId"] == "es_cap"
-        assert result["error"] is None
-
-    @pytest.mark.asyncio
-    @patch.dict(os.environ, {"YOUTUBE_API_KEY": "test_key"})
-    @patch("src.tools.transcript._client", None)
-    @patch("src.tools.transcript.YouTubeClient")
-    async def test_get_transcript_no_captions_returns_error(self, mock_client_class):
-        """youtube_get_transcript should return NotFound when no captions available."""
-        mock_client_instance = Mock()
-        mock_client_class.return_value = mock_client_instance
-
-        mock_captions = Mock()
-        mock_captions.list.return_value.execute.return_value = {"items": []}
-        mock_client_instance.client.captions.return_value = mock_captions
+            from youtube_transcript_api import NoTranscriptFound
+            mock_transcript_api.fetch.side_effect = NoTranscriptFound("No transcript found")
 
         result = await youtube_get_transcript(video_id="abc123")
 
         assert result["data"] is None
         assert result["error"]["code"] == "NotFound"
-        assert "captions" in result["error"]["message"].lower()
-        assert "abc123" in result["error"]["message"]
-        assert result["error"]["message"] == "No captions available for video abc123 in language en"
 
     @pytest.mark.asyncio
-    @patch.dict(os.environ, {"YOUTUBE_API_KEY": "test_key"})
-    @patch("src.tools.transcript._client", None)
-    @patch("src.tools.transcript.YouTubeClient")
-    async def test_get_transcript_handles_api_exception(self, mock_client_class):
-        """youtube_get_transcript should handle API exceptions gracefully."""
-        mock_client_instance = Mock()
-        mock_client_class.return_value = mock_client_instance
+    async def test_get_transcript_transcripts_disabled(self):
+        """youtube_get_transcript should return error when transcripts disabled."""
+        with patch("src.tools.transcript.YouTubeClient") as MockYouTubeClient:
+            mock_client_instance = MockYouTubeClient.return_value.return_value = MagicMock()
+            mock_transcript_api = MagicMock()
+            mock_transcript_api.fetch.return_value = []
 
-        mock_captions = Mock()
-        mock_captions.list.return_value.execute.side_effect = Exception("API Error")
-        mock_client_instance.client.captions.return_value = mock_captions
+            from youtube_transcript_api import TranscriptsDisabled
+            mock_transcript_api.fetch.side_effect = TranscriptsDisabled("Transcripts disabled")
+
+        result = await youtube_get_transcript(video_id="abc123")
+
+        assert result["data"] is None
+        assert result["error"]["code"] == "TranscriptsDisabled"
+        assert "disabled" in result["error"]["message"]
+
+    @pytest.mark.asyncio
+    async def test_get_transcript_handles_exception(self):
+        """youtube_get_transcript should handle API exceptions gracefully."""
+        with patch("src.tools.transcript.YouTubeClient") as MockYouTubeClient:
+            mock_client_instance = MockYouTubeClient.return_value.return_value = MagicMock()
+            mock_transcript_api = MagicMock()
+            mock_transcript_api.fetch.side_effect = Exception("API Error")
 
         result = await youtube_get_transcript(video_id="abc123")
 

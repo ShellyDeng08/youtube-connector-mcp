@@ -2,7 +2,9 @@
 
 <div align="center">
 
-**Connect Claude to YouTube Data API v3**
+**Connect any MCP-compatible AI to YouTube Data API v3**
+
+Works with Claude, Cursor, Cline, Windsurf, Continue.dev, Grapes AI, and more.
 
 Search videos, get details, fetch comments, access playlists, transcripts, and more.
 
@@ -42,11 +44,11 @@ claude mcp add youtube-connector-mcp youtube-connector-mcp -s user -e YOUTUBE_AP
 
 ## Prerequisites
 
-| Requirement | How to Get |
-|-------------|-------------|
-| **Python 3.10+** | [Download Python](https://www.python.org/downloads/) or `brew install python3` |
+| Requirement         | How to Get                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| **Python 3.10+**    | [Download Python](https://www.python.org/downloads/) or `brew install python3`             |
 | **YouTube API Key** | Get it free from [Google Cloud Console](https://console.cloud.google.com/apis/credentials) |
-| **Claude Code** | Install from [claude.com/code](https://claude.com/code) |
+| **MCP Client**      | Any MCP-compatible AI: [Claude](https://claude.com/code), [Cursor](https://cursor.sh), [Cline](https://cline.so), [Windsurf](https://codeium.com/windsurf), [Continue.dev](https://continue.dev), etc. |
 
 ---
 
@@ -89,7 +91,20 @@ claude mcp list  # Check if server is registered
 
 ## Configuration
 
-### Option 1: Using `claude mcp add` (Easiest)
+### Popular AI Coding Tools
+
+| Tool | Platform | Config |
+|------|----------|--------|
+| **Claude Code** | CLI | `claude mcp add` |
+| **Claude Desktop** | macOS/Windows | `claude_desktop_config.json` |
+| **Cursor IDE** | Desktop | Settings UI |
+| **Cline** | VS Code Extension | `.cline/config.yaml` |
+
+> **Note:** Any MCP-compatible AI tool works! Just use the standard JSON config format below.
+
+---
+
+### Option 1: Using `claude mcp add` (Claude Code - Easiest)
 
 ```bash
 # Install for current project only
@@ -104,9 +119,11 @@ claude mcp add youtube-connector-mcp youtube-connector-mcp -s project -e YOUTUBE
 
 > **Don't have an API key?** See [Creating a YouTube API Key](#creating-a-youtube-api-key) below - it's free and takes just a few minutes.
 
-### Option 2: Manual Configuration
+---
 
-Add to your `~/.claude/mcp_config.json`:
+### Option 2: Standard JSON Configuration
+
+**适用于任何 MCP 兼容的 AI 工具**
 
 ```json
 {
@@ -114,12 +131,65 @@ Add to your `~/.claude/mcp_config.json`:
     "youtube-connector-mcp": {
       "command": "youtube-connector-mcp",
       "env": {
-        "YOUTUBE_API_KEY": "${YOUTUBE_API_KEY}"
+        "YOUTUBE_API_KEY": "your_api_key_here"
       }
     }
   }
 }
 ```
+
+**各工具配置文件位置：**
+
+| Tool | Config File Path |
+|------|------------------|
+| Claude Code | `~/.claude/mcp_config.json` |
+| Claude Desktop | `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) |
+| Cursor IDE | Settings → MCP Servers (UI) |
+| Cline (VS Code) | `.cline/config.yaml` |
+
+---
+
+### Option 3: Claude Desktop
+
+1. Open Claude Desktop
+2. Go to Settings → Developer → Edit Config
+3. Or edit the config file directly:
+
+**macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "youtube-connector-mcp": {
+      "command": "youtube-connector-mcp",
+      "env": {
+        "YOUTUBE_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+### Option 4: Cursor IDE
+
+1. Open Cursor Settings (Cmd/Ctrl + ,)
+2. Go to **MCP Servers** section
+3. Add a new server using the JSON format above
+
+### Option 5: Cline (VS Code Extension)
+
+Add to your `.cline/config.yaml`:
+
+```yaml
+mcpServers:
+  youtube-connector-mcp:
+    command: youtube-connector-mcp
+    env:
+      YOUTUBE_API_KEY: "your_api_key_here"
+```
+
+---
 
 ### API Key Setup
 
@@ -160,6 +230,8 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 
 > **Security Note:** Using environment variables is safer as it keeps your key out of version control.
 
+---
+
 ### Creating a YouTube API Key
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
@@ -170,10 +242,10 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 
 ### Environment Variables
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `YOUTUBE_API_KEY` | Yes | - | YouTube Data API v3 key |
-| `YOUTUBE_RATE_LIMIT` | No | 100 | Max requests per second |
+| Variable             | Required | Default | Description             |
+| -------------------- | -------- | ------- | ----------------------- |
+| `YOUTUBE_API_KEY`    | Yes      | -       | YouTube Data API v3 key |
+| `YOUTUBE_RATE_LIMIT` | No       | 100     | Max requests per second |
 
 ---
 
@@ -181,36 +253,34 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 
 ### Core Capabilities
 
-| Tool | Description |
-|------|-------------|
-| `youtube_search` | Search videos, channels, playlists with filters (duration, date, type, order) |
-| `youtube_get_video` | Get detailed video metadata, statistics, thumbnails, and content details |
-| `youtube_get_channel` | Get channel info, subscriber count, upload playlists, statistics |
-| `youtube_get_transcript` | Retrieve actual video transcript text with timestamps |
-| `youtube_get_comments` | Fetch video comments with pagination support |
-| `youtube_get_playlist` | Get playlist details and complete video list |
-| `youtube_list_playlists` | List all playlists for a specific channel |
-| `youtube_get_analytics` | Get analytics data (views, likes, comments, watch time) |
+| Tool                     | Description                                                                   |
+| ------------------------ | ----------------------------------------------------------------------------- |
+| `youtube_search`         | Search videos, channels, playlists with filters (duration, date, type, order) |
+| `youtube_get_video`      | Get detailed video metadata, statistics, thumbnails, and content details      |
+| `youtube_get_channel`    | Get channel info, subscriber count, upload playlists, statistics              |
+| `youtube_get_transcript` | Retrieve actual video transcript text with timestamps                         |
+| `youtube_get_comments`   | Fetch video comments with pagination support                                  |
+| `youtube_get_playlist`   | Get playlist details and complete video list                                  |
+| `youtube_list_playlists` | List all playlists for a specific channel                                     |
 
 ### Use Cases
 
 - **Research**: Search and analyze YouTube content programmatically
 - **Content Analysis**: Extract transcripts and comments for AI processing
 - **Channel Monitoring**: Track channel statistics and new uploads
-- **Data Mining**: Gather YouTube data for analytics projects
-- **Automated Workflows**: Integrate YouTube data into Claude-assisted workflows
+- **Data Mining**: Gather YouTube data for your projects
+- **Automated Workflows**: Integrate YouTube data into AI-assisted workflows
 
 ---
 
 ## Usage Examples
 
-| Category | Example Prompts |
-|----------|----------------|
-| **Search** | "Search for Python tutorials" / "Find recent AI videos" / "Channels about cooking with 100k+ subscribers" |
-| **Video** | "Get details for this video: URL" / "What's the view count?" / "Get the transcript" |
-| **Channel** | "How many subscribers does @MKBHD have?" / "Recent uploads from this channel" / "Channel statistics" |
-| **Playlist** | "List all playlists for this channel" / "Get videos in this playlist" |
-| **Comments/Analytics** | "Get top comments for this video" / "Show channel analytics" |
+| Category               | Example Prompts                                                                                           |
+| ---------------------- | --------------------------------------------------------------------------------------------------------- |
+| **Search**             | "Search for Python tutorials" / "Find recent AI videos" / "Channels about cooking with 100k+ subscribers" |
+| **Video**              | "Get details for this video: URL" / "What's the view count?" / "Get the transcript"                       |
+| **Channel**            | "How many subscribers does @MKBHD have?" / "Recent uploads from this channel" / "Channel statistics"      |
+| **Playlist**           | "List all playlists for this channel" / "Get videos in this playlist"                                     |
 
 ---
 
@@ -221,6 +291,7 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 **Error:** `No MCP servers configured`
 
 **Solutions:**
+
 1. Verify `~/.claude/mcp_config.json` exists
 2. Check JSON syntax is valid
 3. Run `claude mcp list` to see registered servers
@@ -231,6 +302,7 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 **Error:** `command not found: python`
 
 **Solutions:**
+
 1. Use `python3` instead of `python`
 2. Provide full path: `which python3` (Mac/Linux) or `where python` (Windows)
 
@@ -239,6 +311,7 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 **Error:** `ModuleNotFoundError: No module named 'mcp'`
 
 **Solutions:**
+
 - **If using pipx**: `pipx reinstall youtube-connector-mcp`
 - **If using pip in venv**: Activate virtual environment first `source .venv/bin/activate`
 
@@ -247,6 +320,7 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 **Error:** `403 Forbidden - quota exceeded`
 
 **Solutions:**
+
 1. Check [Google Cloud Console quota](https://console.cloud.google.com/apis/api/youtube.googleapis.com/quotas)
 2. Default: 10,000 units/day
 3. Consider upgrading for higher limits
@@ -256,6 +330,7 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 **Error:** "No transcript available" or "Transcripts are disabled"
 
 **Solutions:**
+
 1. Video may not have captions enabled
 2. Auto-generated captions may take 24+ hours after upload
 3. Try a video known to have captions

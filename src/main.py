@@ -12,7 +12,6 @@ from src.tools.transcript import youtube_get_transcript, GetTranscriptArgs
 from src.tools.playlist import youtube_get_playlist, youtube_list_playlists, GetPlaylistArgs, ListPlaylistsArgs
 from src.tools.comments import youtube_get_comments, GetCommentsArgs
 from src.tools.channel import youtube_get_channel, GetChannelArgs
-from src.tools.analytics import youtube_get_analytics, GetAnalyticsArgs
 
 
 @server.list_resources()
@@ -63,11 +62,6 @@ async def list_tools():
             name="youtube_get_comments",
             description="Get comments for a YouTube video",
             inputSchema=GetCommentsArgs.model_json_schema()
-        ),
-        types.Tool(
-            name="youtube_get_analytics",
-            description="Get analytics data (requires OAuth for full data)",
-            inputSchema=GetAnalyticsArgs.model_json_schema()
         ),
     ]
 
@@ -120,14 +114,6 @@ async def call_tool(name, arguments):
             max_results=args.max_results,
             page_token=args.page_token
         )
-    elif name == "youtube_get_analytics":
-        args = GetAnalyticsArgs(**arguments)
-        return await youtube_get_analytics(
-            ids=args.ids,
-            metrics=args.metrics,
-            start_date=args.start_date,
-            end_date=args.end_date
-        )
     else:
         raise ValueError(f"Unknown tool: {name}")
 
@@ -144,7 +130,7 @@ async def main():
 
 
 def cli_main():
-    """Entry point for CLI - runs the async main."""
+    """Entry point for CLI - runs async main."""
     asyncio.run(main())
 
 

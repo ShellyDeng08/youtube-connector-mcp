@@ -1,5 +1,4 @@
 """Test that all MCP server modules can be imported."""
-
 import pytest
 
 
@@ -18,7 +17,6 @@ def test_import_tools():
     from src.tools.playlist import youtube_get_playlist, youtube_list_playlists, GetPlaylistArgs, ListPlaylistsArgs
     from src.tools.comments import youtube_get_comments, GetCommentsArgs
     from src.tools.channel import youtube_get_channel, GetChannelArgs
-    from src.tools.analytics import youtube_get_analytics, GetAnalyticsArgs
 
     # Test actual function imports (not just modules)
     assert youtube_search is not None
@@ -28,4 +26,3 @@ def test_import_tools():
     assert youtube_list_playlists is not None
     assert youtube_get_comments is not None
     assert youtube_get_channel is not None
-    assert youtube_get_analytics is not None
