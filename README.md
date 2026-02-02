@@ -1,20 +1,9 @@
-# YouTube MCP Server
+# YouTube MCP Server (youtube-connector-mcp)
 
-<div align="center">
+`youtube-connector-mcp` is a **YouTube MCP Server / Connector** that allows AI assistants like **Claude, Cursor, Cline, Windsurf, Continue.dev, Grapes AI** to interact with the **YouTube Data API v3** via the **Model Context Protocol (MCP)**.
 
-**Connect any MCP-compatible AI to YouTube Data API v3**
-
-Works with Claude, Cursor, Cline, Windsurf, Continue.dev, Grapes AI, and more.
-
-Search videos, get details, fetch comments, access playlists, transcripts, and more.
-
-[![PyPI Version](https://img.shields.io/pypi/v/youtube-connector-mcp)](https://pypi.org/project/youtube-connector-mcp/)
-[![Python Version](https://img.shields.io/pypi/pyversions/youtube-connector-mcp)](https://pypi.org/project/youtube-connector-mcp/)
-[![License](https://img.shields.io/pypi/l/youtube-connector-mcp)](LICENSE)
-
-**PyPI Package**: `youtube-connector-mcp`
-
-</div>
+🌐 Project Website: https://youtube-connector-mcp-website.vercel.app/  
+📦 PyPI Package: https://pypi.org/project/youtube-connector-mcp/
 
 ---
 
@@ -357,3 +346,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 - [PyPI Package](https://pypi.org/project/youtube-connector-mcp/)
 - [YouTube Data API v3 Docs](https://developers.google.com/youtube/v3)
 - [Claude Code](https://claude.com/code)
+
+## SEO Keywords
+
+YouTube MCP Server, YouTube MCP Connector, MCP YouTube API, Claude MCP YouTube, Cursor MCP YouTube, AI YouTube API, Model Context Protocol YouTube
