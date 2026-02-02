@@ -2,7 +2,7 @@
 import pytest
 import os
 from unittest.mock import Mock, patch, MagicMock
-from src.tools.transcript import youtube_get_transcript, GetTranscriptArgs
+from src.tools.transcript import youtube_get_transcript, GetTranscriptArgs, _transcript_api, _client
 
 
 @pytest.mark.unit
@@ -20,71 +20,85 @@ class TestGetTranscriptArgs:
 class TestYouTubeGetTranscript:
     """Test youtube_get_transcript function."""
 
+    def setup_method(self):
+        """Reset module-level state before each test."""
+        import src.tools.transcript as transcript_module
+        transcript_module._transcript_api = None
+        transcript_module._client = None
+
     @pytest.mark.asyncio
     async def test_get_transcript_success(self):
         """youtube_get_transcript should return transcript data."""
-        with patch("src.tools.transcript.YouTubeClient") as MockYouTubeClient:
-            mock_client_instance = MockYouTubeClient.return_value.return_value = MagicMock()
-            mock_transcript_api = MagicMock()
+        with patch("src.tools.transcript.YouTubeTranscriptApi") as MockApiClass, \
+             patch("src.tools.transcript.YouTubeClient") as MockClientClass:
+            # Mock transcript API instance
+            mock_api_instance = MagicMock()
+            MockApiClass.return_value = mock_api_instance
 
             mock_transcript_data = [
                 Mock(text="Hello world", start=0.0, duration=1.0),
                 Mock(text="This is a test", start=1.0, duration=1.0),
             ]
-            mock_transcript_api.fetch.return_value = mock_transcript_data
-            mock_transcript_api.list.return_value = []
+            mock_api_instance.fetch.return_value = mock_transcript_data
 
-        result = await youtube_get_transcript(video_id="abc123", language="en")
+            # Mock YouTube client (for available tracks)
+            mock_client_instance = MagicMock()
+            MockClientClass.return_value = mock_client_instance
+            mock_client_instance.client.captions().list().execute.return_value = {"items": []}
 
-        assert result["data"]["videoId"] == "abc123"
-        assert result["data"]["language"] == "en"
-        assert result["data"]["segmentCount"] == 2
-        assert result["error"] is None
+            result = await youtube_get_transcript(video_id="abc123", language="en")
+
+            assert result["data"]["videoId"] == "abc123"
+            assert result["data"]["language"] == "en"
+            assert result["data"]["segmentCount"] == 2
+            assert result["error"] is None
 
     @pytest.mark.asyncio
     async def test_get_transcript_no_transcript_available(self):
         """youtube_get_transcript should return NotFound when no transcript available."""
-        with patch("src.tools.transcript.YouTubeClient") as MockYouTubeClient:
-            mock_client_instance = MockYouTubeClient.return_value.return_value = MagicMock()
-            mock_transcript_api = MagicMock()
-            mock_transcript_api.fetch.return_value = []
-            mock_transcript_api.list.return_value = []
+        with patch("src.tools.transcript.YouTubeTranscriptApi") as MockApiClass:
+            mock_api_instance = MagicMock()
+            MockApiClass.return_value = mock_api_instance
+            mock_api_instance.list.return_value = []
 
             from youtube_transcript_api import NoTranscriptFound
-            mock_transcript_api.fetch.side_effect = NoTranscriptFound("No transcript found")
+            # First call raises NoTranscriptFound, second call also raises it (no auto-generated)
+            mock_api_instance.fetch.side_effect = [
+                NoTranscriptFound("abc123", ["en"], []),
+                NoTranscriptFound("abc123", [], [])
+            ]
 
-        result = await youtube_get_transcript(video_id="abc123")
+            result = await youtube_get_transcript(video_id="abc123")
 
-        assert result["data"] is None
-        assert result["error"]["code"] == "NotFound"
+            assert result["data"] is None
+            assert result["error"]["code"] == "NotFound"
 
     @pytest.mark.asyncio
     async def test_get_transcript_transcripts_disabled(self):
         """youtube_get_transcript should return error when transcripts disabled."""
-        with patch("src.tools.transcript.YouTubeClient") as MockYouTubeClient:
-            mock_client_instance = MockYouTubeClient.return_value.return_value = MagicMock()
-            mock_transcript_api = MagicMock()
-            mock_transcript_api.fetch.return_value = []
+        with patch("src.tools.transcript.YouTubeTranscriptApi") as MockApiClass:
+            mock_api_instance = MagicMock()
+            MockApiClass.return_value = mock_api_instance
 
             from youtube_transcript_api import TranscriptsDisabled
-            mock_transcript_api.fetch.side_effect = TranscriptsDisabled("Transcripts disabled")
+            mock_api_instance.fetch.side_effect = TranscriptsDisabled("abc123")
 
-        result = await youtube_get_transcript(video_id="abc123")
+            result = await youtube_get_transcript(video_id="abc123")
 
-        assert result["data"] is None
-        assert result["error"]["code"] == "TranscriptsDisabled"
-        assert "disabled" in result["error"]["message"]
+            assert result["data"] is None
+            assert result["error"]["code"] == "TranscriptsDisabled"
+            assert "disabled" in result["error"]["message"]
 
     @pytest.mark.asyncio
     async def test_get_transcript_handles_exception(self):
         """youtube_get_transcript should handle API exceptions gracefully."""
-        with patch("src.tools.transcript.YouTubeClient") as MockYouTubeClient:
-            mock_client_instance = MockYouTubeClient.return_value.return_value = MagicMock()
-            mock_transcript_api = MagicMock()
-            mock_transcript_api.fetch.side_effect = Exception("API Error")
+        with patch("src.tools.transcript.YouTubeTranscriptApi") as MockApiClass:
+            mock_api_instance = MagicMock()
+            MockApiClass.return_value = mock_api_instance
+            mock_api_instance.fetch.side_effect = Exception("API Error")
 
-        result = await youtube_get_transcript(video_id="abc123")
+            result = await youtube_get_transcript(video_id="abc123")
 
-        assert result["data"] is None
-        assert result["error"]["code"] == "Exception"
-        assert result["pagination"] is None
+            assert result["data"] is None
+            assert result["error"]["code"] == "Exception"
+            assert result["pagination"] is None
