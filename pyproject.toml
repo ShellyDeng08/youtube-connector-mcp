@@ -15,6 +15,7 @@ packages = [{include = "src"}]
 Homepage = "https://github.com/ShellyDeng08/youtube-connector-mcp"
 Repository = "https://github.com/ShellyDeng08/youtube-connector-mcp"
 Documentation = "https://github.com/ShellyDeng08/youtube-connector-mcp/blob/main/README.md"
+Website = "https://youtube-connector-mcp-website.vercel.app/"
 
 [tool.poetry.scripts]
 youtube-connector-mcp = "src.main:cli_main"
