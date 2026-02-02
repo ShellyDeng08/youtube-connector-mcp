@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-02-01
+
+### Added
+- GitHub CI/CD workflow for automated testing (Python 3.10-3.13)
+- GitHub Actions workflow for automated PyPI publishing
+- CHANGELOG.md following Keep a Changelog format
+
 ## [0.2.0] - 2025-01-29
 
 ### Added
