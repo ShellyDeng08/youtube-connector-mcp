@@ -44,10 +44,10 @@ claude mcp add youtube-connector-mcp youtube-connector-mcp -s user -e YOUTUBE_AP
 
 ## Prerequisites
 
-| Requirement         | How to Get                                                                                 |
-| ------------------- | ------------------------------------------------------------------------------------------ |
-| **Python 3.10+**    | [Download Python](https://www.python.org/downloads/) or `brew install python3`             |
-| **YouTube API Key** | Get it free from [Google Cloud Console](https://console.cloud.google.com/apis/credentials) |
+| Requirement         | How to Get                                                                                                                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Python 3.10+**    | [Download Python](https://www.python.org/downloads/) or `brew install python3`                                                                                                                         |
+| **YouTube API Key** | Get it free from [Google Cloud Console](https://console.cloud.google.com/apis/credentials)                                                                                                             |
 | **MCP Client**      | Any MCP-compatible AI: [Claude](https://claude.com/code), [Cursor](https://cursor.sh), [Cline](https://cline.so), [Windsurf](https://codeium.com/windsurf), [Continue.dev](https://continue.dev), etc. |
 
 ---
@@ -93,12 +93,12 @@ claude mcp list  # Check if server is registered
 
 ### Popular AI Coding Tools
 
-| Tool | Platform | Config |
-|------|----------|--------|
-| **Claude Code** | CLI | `claude mcp add` |
-| **Claude Desktop** | macOS/Windows | `claude_desktop_config.json` |
-| **Cursor IDE** | Desktop | Settings UI |
-| **Cline** | VS Code Extension | `.cline/config.yaml` |
+| Tool               | Platform          | Config                       |
+| ------------------ | ----------------- | ---------------------------- |
+| **Claude Code**    | CLI               | `claude mcp add`             |
+| **Claude Desktop** | macOS/Windows     | `claude_desktop_config.json` |
+| **Cursor IDE**     | Desktop           | Settings UI                  |
+| **Cline**          | VS Code Extension | `.cline/config.yaml`         |
 
 > **Note:** Any MCP-compatible AI tool works! Just use the standard JSON config format below.
 
@@ -140,12 +140,12 @@ claude mcp add youtube-connector-mcp youtube-connector-mcp -s project -e YOUTUBE
 
 **各工具配置文件位置：**
 
-| Tool | Config File Path |
-|------|------------------|
-| Claude Code | `~/.claude/mcp_config.json` |
-| Claude Desktop | `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) |
-| Cursor IDE | Settings → MCP Servers (UI) |
-| Cline (VS Code) | `.cline/config.yaml` |
+| Tool            | Config File Path                                                          |
+| --------------- | ------------------------------------------------------------------------- |
+| Claude Code     | `~/.claude/mcp_config.json`                                               |
+| Claude Desktop  | `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) |
+| Cursor IDE      | Settings → MCP Servers (UI)                                               |
+| Cline (VS Code) | `.cline/config.yaml`                                                      |
 
 ---
 
@@ -275,12 +275,12 @@ setx YOUTUBE_API_KEY "your_api_key_here"
 
 ## Usage Examples
 
-| Category               | Example Prompts                                                                                           |
-| ---------------------- | --------------------------------------------------------------------------------------------------------- |
-| **Search**             | "Search for Python tutorials" / "Find recent AI videos" / "Channels about cooking with 100k+ subscribers" |
-| **Video**              | "Get details for this video: URL" / "What's the view count?" / "Get the transcript"                       |
-| **Channel**            | "How many subscribers does @MKBHD have?" / "Recent uploads from this channel" / "Channel statistics"      |
-| **Playlist**           | "List all playlists for this channel" / "Get videos in this playlist"                                     |
+| Category     | Example Prompts                                                                                           |
+| ------------ | --------------------------------------------------------------------------------------------------------- |
+| **Search**   | "Search for Python tutorials" / "Find recent AI videos" / "Channels about cooking with 100k+ subscribers" |
+| **Video**    | "Get details for this video: URL" / "What's the view count?" / "Get the transcript"                       |
+| **Channel**  | "How many subscribers does @MKBHD have?" / "Recent uploads from this channel" / "Channel statistics"      |
+| **Playlist** | "List all playlists for this channel" / "Get videos in this playlist"                                     |
 
 ---
 
@@ -352,6 +352,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Links
 
+- [Official Website](https://youtube-connector-mcp-website.vercel.app/)
 - [GitHub Repository](https://github.com/ShellyDeng08/youtube-connector-mcp)
 - [PyPI Package](https://pypi.org/project/youtube-connector-mcp/)
 - [YouTube Data API v3 Docs](https://developers.google.com/youtube/v3)

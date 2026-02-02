@@ -44,6 +44,7 @@ youtube-mcp-server/  (Repository name)
 
 1. Create a new file in `src/tools/`, e.g., `src/tools/new_tool.py`
 2. Define your Pydantic args model:
+
    ```python
    from pydantic import BaseModel
 
@@ -52,6 +53,7 @@ youtube-mcp-server/  (Repository name)
    ```
 
 3. Implement the async function:
+
    ```python
    async def new_tool(param: str) -> list[dict]:
        # Your implementation here
@@ -59,6 +61,7 @@ youtube-mcp-server/  (Repository name)
    ```
 
 4. Register in `src/main.py`:
+
    ```python
    from src.tools.new_tool import new_tool, NewToolArgs
 
@@ -83,12 +86,22 @@ poetry build
 python -m build
 ```
 
+---
+
 ## Publishing to PyPI
 
 ```bash
-# Upload to PyPI (requires twine)
-twine upload dist/*
+# Configure PyPI token
+poetry config pypi-token.pypi <your_pypi_token>
+
+# Build the package
+poetry build
+
+# Publish to PyPI
+poetry publish
 ```
+
+**Note:** Get your PyPI token from https://pypi.org/manage/account/token/
 
 ## Related Documentation
 
